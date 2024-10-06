@@ -66,11 +66,14 @@
 #ifdef LOVE_ENABLE_LUA53
 #	include "libraries/lua53/lutf8lib.h"
 #endif
-
 // For love::graphics::setGammaCorrect.
 #ifdef LOVE_ENABLE_GRAPHICS
 #	include "graphics/Graphics.h"
 #endif
+#ifdef LOVE_ENABLE_MOONSCRIPT // For Supporting Moonscript Natively
+#	include "libraries/moonscript/moonscript.h"
+#endif
+
 
 // For love::audio::Audio::setMixWithSystem.
 #ifdef LOVE_ENABLE_AUDIO
@@ -526,6 +529,12 @@ int luaopen_love(lua_State *L)
 #ifdef LOVE_ENABLE_LUA53
 	love::luax_preload(L, luaopen_luautf8, "utf8");
 #endif
+
+// Enable Support For Moonscript
+#ifdef LOVE_ENABLE_MOONSCRIPT
+	love::moonscript::__open(L);
+#endif
+
 
 #ifdef LOVE_ENABLE_WINDOW
 	// In some environments, LuaJIT is limited to 2GB and LuaJIT sometimes panic when it
